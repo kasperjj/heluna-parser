@@ -1,0 +1,25 @@
+function sort(lst)->
+	if length(lst)<=1
+        then
+            lst 
+        else
+            if length(lst)=2
+                then
+                    if lst.0 < lst.1
+                        then
+                            lst
+                        else
+                            [lst.1,lst.0]
+                    end
+	            else
+                    with pivot:nth(lst,random(length(lst)-2)+1) do
+                        with
+	                        a:for lst as i do if i<pivot then i else nothing end end,
+	                        b:for lst as i do if i=pivot then i else nothing end end,
+	                        c:for lst as i do if i>pivot then i else nothing end end
+	                    do
+                            sort(a)+b+sort(c)
+                        end
+                    end
+            end
+    end

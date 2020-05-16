@@ -1,0 +1,21 @@
+Literal ::=             <Integer> | <Float> | <String> | <Boolean>
+Boolean ::=             <Identifier "true"> | <Identifier "false"> 
+Factor ::= 			    <Literal> | <Reference> |
+                        ('(' <Expression> ')') | <Label> | <Reference> |
+                        <IfStatement> | <FunctionDefinition> | <FunctionCall> |
+                        <Identifier> <ListAccessor>? | <Iterator> | <Scope> 
+Term ::= 				<Factor> (('*' | '/' | '%') <Term>)?
+Reference ::=			'$' (<Integer> | <Identifier>) <ListAccessor>?
+Label ::=				<Identifier> ':' <Expression>
+ListAccessor ::=		'.' (<Integer> | <String> | <Identifier> | <Reference>) <ListAccessor>*
+FunctionDefinition ::=  'function' <Identifier> <ArgumentList> '->' <Expression>
+FunctionCall ::=		<Identifier> <ArgumentList> <ListAccessor>?
+Iterator ::=            'for' <Expression> 'as' <Identifier> (',' <Identifier>)* 'do' <Expression> 'end' <ListAccessor>?
+Scope ::= 	            'with' ((<Expression> (',' <Expression>)*)|
+					    (<Expression> 'as' <Identifier> (',' <Identifier>)*)
+					    ) 'do' <Expression> 'end'
+ArgumentList ::=		'(' ((<Label> | <Expression>) (',' (<Label> | <Expression>))*)? ')'
+IfStatement ::= 		'if' <BooleanExpression> 'then' <Expression> 'else' (<Expression> |'nothing') 'end'
+Expression ::= 		    '-'? <Term> (('+' | '-') <Expression>)*
+BooleanExpression ::=	<Expression> ((('<' | '>' | '!') '='?) | '=') <Expression> 
+CompositeExpression ::= <BooleanExpression> (('|' | '&') <BooleanExpression>)* 
